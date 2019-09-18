@@ -4,7 +4,7 @@ const breedUrl = 'https://dog.ceo/api/breeds/list/all'
 
 document.addEventListener("DOMContentLoaded", function(){
 
-
+  const imgCont = document.getElementById("dog-image-container");
   loadImages()
   loadBreeds()
   filterBreeds()
@@ -38,7 +38,7 @@ function loadBreeds() {
   .then(breedCollection => {
     Object.keys(breedCollection.message).forEach(function(breed) {
       var liTag = document.createElement("li")
-      liTag.innerText = breed.charAt(0).toUpperCase() + breed.slice(1,-1)
+      liTag.innerText = breed.charAt(0).toUpperCase() + breed.slice(1)
       liTag.addEventListener("click", () => {
         liTag.style.color = "purple";
         liTag.style.fontWeight = "bold";
@@ -50,7 +50,28 @@ function loadBreeds() {
 
 function filterBreeds() {
   const letterSelect = document.getElementById("breed-dropdown");
+  const breedList = document.getElementById("dog-breeds");
+
   letterSelect.addEventListener("change", (e) => {
-    console.log("change", e)
+    let letter = e.target.value;
+    if (letter === "all") {
+      for (let li of breedList.children) {
+        li.style.display = "block"
+      }
+    }
+
+    if (letter !== "all") {
+    for (let li of breedList.children) {
+      if (li.innerText.charAt(0) === letter.toUpperCase()) {
+        li.style.display = "block"
+      }
+      else {
+        li.style.display = "none"
+      }
+      }
+    }
   })
 }
+
+
+// const result = words.filter(word => word.length > 6);
